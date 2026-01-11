@@ -2,11 +2,29 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import { deleteExpense } from '../redux/expenseSlice'
+import { editExpense } from '../redux/expenseSlice'
+import { seteselectedExpense } from '../redux/expenseSlice'
 
 const ListExpense = () => {
 
   const expenses = useSelector((state) => state.expenses.items);
-  const totalAmount = useSelector((state) => state.expenses.items.reduce((sum,item) => sum+Number(item.amount),0))
+  
+  const dispatch = useDispatch();
+
+  // Calculating total amount
+  const totalAmount = useSelector((state) => state.expenses.items.reduce((sum,item) => sum+Number(item.amount),0));
+
+  // Handle Edit Expenses
+  const handleEdit = (expense) => {
+    dispatch(seteselectedExpense(expense));
+  } 
+
+  // Handle Delete Expenses
+  const handleDelete = (id) => {
+    dispatch(deleteExpense(id));
+  }
+
   return (
     <>
       <div className="w-full max-w-3xl mx-auto bg-white border shadow-md rounded-lg p-6 space-y-5">
@@ -36,10 +54,14 @@ const ListExpense = () => {
                 <span className="font-semibold text-blue-600">Rs. {expense.amount}</span>
 
                 <div className="flex gap-2">
-                  <button className="bg-yellow-500 text-white px-3 py-1 rounded-md text-sm hover:bg-yellow-600 transition">
+                  <button className="bg-yellow-500 text-white px-3 py-1 rounded-md text-sm hover:bg-yellow-600 transition"
+                  onClick={() => handleEdit(expense)}
+                  >
                     Edit
                   </button>
-                  <button className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition">
+                  <button className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition"
+                  onClick={() => handleDelete(expense.id)}
+                  >
                     Delete
                   </button>
                 </div>
