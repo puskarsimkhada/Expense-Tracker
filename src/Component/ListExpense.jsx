@@ -9,11 +9,25 @@ import { seteselectedExpense } from '../redux/expenseSlice'
 const ListExpense = () => {
 
   const expenses = useSelector((state) => state.expenses.items);
-  
+  const filterItems = useSelector((state) => state.expenses.filters);
   const dispatch = useDispatch();
 
+  let filteredData = expenses;
+
+  if(filterItems.category){
+    filteredData = filteredData.filter((item) => item.category === filterItems.category)
+  }
+  if(filterItems.startDate){
+    filteredData = filteredData.filter((item) => item.date >= filterItems.startDate)
+  }
+  if(filterItems.endDate){
+    filteredData = filteredData.filter((item) => item.date <= filterItems.endDate)
+  }
+  console.log("ffff:",filteredData)
+
+
   // Calculating total amount
-  const totalAmount = useSelector((state) => state.expenses.items.reduce((sum,item) => sum+Number(item.amount),0));
+  const totalAmount = filteredData.reduce((sum, item) => sum+Number(item.amount),0);
 
   // Handle Edit Expenses
   const handleEdit = (expense) => {
@@ -24,6 +38,7 @@ const ListExpense = () => {
   const handleDelete = (id) => {
     dispatch(deleteExpense(id));
   }
+
 
   return (
     <>
@@ -37,8 +52,8 @@ const ListExpense = () => {
           </span>
         </div>
 
-        <ul className="space-y-4">
-          {expenses.map((expense) => (
+        {filteredData.length > 0 ?<ul className="space-y-4">
+          {filteredData.map((expense) => (
             <li
               key={expense.id}
               className="flex justify-between items-start bg-gray-50 border rounded-lg p-4"
@@ -68,7 +83,7 @@ const ListExpense = () => {
               </div>
             </li>
           ))}
-        </ul>
+        </ul>: <p>No expense Found</p>}
 
       </div>
     </>

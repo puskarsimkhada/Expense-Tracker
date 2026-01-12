@@ -4,6 +4,11 @@ const expenseSlice = createSlice({
   name: "expenses",
   initialState: {
     items: [],
+    filters: {
+      category : "",
+      startDate: "",
+      endDate: "",
+    },
     loading: false,
     error: null,
     selectItem: null,
@@ -21,6 +26,9 @@ const expenseSlice = createSlice({
     seteselectedExpense: (state, action) => {
       state.selectItem = action.payload;
     },
+    setFilters: (state, action) => {
+      state.filters = {...state.filters, ...action.payload}
+    },
     editExpense: (state, action) => {
       const updated = action.payload;
       state.items = state.items.map((item) =>
@@ -35,6 +43,6 @@ const expenseSlice = createSlice({
   extraReducers: (builder) => {},
 });
 
-export const { addexpense, deleteExpense, editExpense, seteselectedExpense } =
+export const { addexpense, deleteExpense, editExpense, seteselectedExpense, setFilters } =
   expenseSlice.actions;
 export default expenseSlice.reducer;
