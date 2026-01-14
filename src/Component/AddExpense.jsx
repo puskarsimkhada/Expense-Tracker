@@ -36,6 +36,8 @@ const AddExpense = () => {
     const { name, value } = e.target;
     setExpenseData({ ...expenseData, [name]: value });
 
+    console.log("ADDSEARCH : ",value)
+
     if(errors[name]){
       setErrors({...errors, [name] : ""})
     }

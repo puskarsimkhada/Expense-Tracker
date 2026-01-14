@@ -32,6 +32,7 @@ const FilterExpense = () => {
       newErrors.endDate = "Select End Date";
     }
 
+    console.log("fittttt : ",filterData)
     if (Object.keys(newErrors).length > 0) {
       setError(newErrors);
       return newErrors;

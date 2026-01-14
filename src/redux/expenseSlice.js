@@ -8,7 +8,9 @@ const expenseSlice = createSlice({
       category : "",
       startDate: "",
       endDate: "",
+      // search: ""
     },
+    search : "",
     loading: false,
     error: null,
     selectItem: null,
@@ -25,6 +27,9 @@ const expenseSlice = createSlice({
     },
     seteselectedExpense: (state, action) => {
       state.selectItem = action.payload;
+    },
+    setSearchFilter: (state, action) => {
+      state.search = action.payload;
     },
     setFilters: (state, action) => {
       state.filters = {...state.filters, ...action.payload}
@@ -43,6 +48,6 @@ const expenseSlice = createSlice({
   extraReducers: (builder) => {},
 });
 
-export const { addexpense, deleteExpense, editExpense, seteselectedExpense, setFilters } =
+export const { addexpense, deleteExpense, editExpense, seteselectedExpense, setFilters,setSearchFilter } =
   expenseSlice.actions;
 export default expenseSlice.reducer;
